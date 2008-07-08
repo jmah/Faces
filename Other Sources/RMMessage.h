@@ -81,7 +81,7 @@
 	id captureObject;
 	
 	// This is actually statically allocated memory space to hold a marg_list
-	char arguments[RMMESSAGE_ARGUMENT_BUFFER_SIZE];
+	__strong char arguments[RMMESSAGE_ARGUMENT_BUFFER_SIZE];
 	
 	unsigned argumentSize;
 }
