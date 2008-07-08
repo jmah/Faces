@@ -23,6 +23,8 @@
 		28119B840E233CD700A8EB5B /* haarcascade_profileface.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28119B750E233CD700A8EB5B /* haarcascade_profileface.xml */; };
 		28119B850E233CD700A8EB5B /* haarcascade_upperbody.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28119B760E233CD700A8EB5B /* haarcascade_upperbody.xml */; };
 		28119BCB0E233EC600A8EB5B /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
+		282238FE0E235B64007A2705 /* RMMessage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 282238FD0E235B64007A2705 /* RMMessage.mm */; };
+		2822393A0E23611E007A2705 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +35,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2822393A0E23611E007A2705 /* OpenCV.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,6 +75,8 @@
 		28119BB70E233D7900A8EB5B /* Cocoa Test Suite.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Cocoa Test Suite.xcconfig"; sourceTree = "<group>"; };
 		28119BB80E233D7900A8EB5B /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		28119BB90E233D7900A8EB5B /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		282238FC0E235B64007A2705 /* RMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMessage.h; sourceTree = "<group>"; };
+		282238FD0E235B64007A2705 /* RMMessage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMMessage.mm; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Faces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +165,8 @@
 			children = (
 				28119B670E233CD700A8EB5B /* Faces_Prefix.pch */,
 				28119B680E233CD700A8EB5B /* main.m */,
+				282238FC0E235B64007A2705 /* RMMessage.h */,
+				282238FD0E235B64007A2705 /* RMMessage.mm */,
 			);
 			path = "Other Sources";
 			sourceTree = "<group>";
@@ -304,6 +311,7 @@
 				28119B790E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m in Sources */,
 				28119B7A0E233CD700A8EB5B /* NSImage+JSMFaces.m in Sources */,
 				28119B7B0E233CD700A8EB5B /* main.m in Sources */,
+				282238FE0E235B64007A2705 /* RMMessage.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

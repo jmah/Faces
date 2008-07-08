@@ -18,11 +18,18 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 
 - (NSArray *)detectFaces;
 {
-	if (!frontalFaceCascade)
+	@synchronized(@"NSImage+JSMFaces loadFrontalFaceCascade")
 	{
-		NSString *cascadePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_alt" ofType:@"xml"];
-		//NSString *cascadePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_profileface" ofType:@"xml"];
-		frontalFaceCascade = (CvHaarClassifierCascade *)cvLoad([cascadePath fileSystemRepresentation], 0, 0, 0);
+		if (!frontalFaceCascade)
+		{
+			NSString *cascadePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_alt" ofType:@"xml"];
+			if (!cascadePath)
+			{
+				NSLog(@"Unable to find cascade file in bundle");
+				abort();
+			}
+			frontalFaceCascade = (CvHaarClassifierCascade *)cvLoad([cascadePath fileSystemRepresentation], 0, 0, 0);
+		}
 	}
 	
 	// Calculate the resolution in pixels per point so we can scale it back later
@@ -59,7 +66,11 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	
 	// Do the face detection
     CvMemStorage *storage = cvCreateMemStorage(0);
-	CvSeq *facesSeq = cvHaarDetectObjects(iplImage, frontalFaceCascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
+	CvSeq *facesSeq;
+	@synchronized(@"NSImage+JSMFaces useFrontalFaceCascade")
+	{
+		facesSeq = cvHaarDetectObjects(iplImage, frontalFaceCascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
+	}
 	NSUInteger faceCount = (facesSeq ? facesSeq->total : 0);
 	
 	// Convert and scale face areas

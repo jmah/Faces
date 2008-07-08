@@ -11,14 +11,13 @@
 
 @interface JSMController : NSObject
 {
-	NSImage *_image;
-	IBOutlet NSArrayController *facesBucketController;
+	NSArray *_sourceItems;
+	NSMutableArray *_faces;
+	NSOperationQueue *_faceDetectionQueue;
 }
 
 
-@property(readwrite, copy) NSImage *image;
-@property(readonly) NSImage *imageWithHighlightedFaces;
-
-- (void)extractFaces;
+@property(readonly, copy) NSArray *sourceItems;
+@property(readwrite, retain) NSMutableArray *faces;
 
 @end
