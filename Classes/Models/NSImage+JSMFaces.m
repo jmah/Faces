@@ -66,11 +66,10 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	
 	// Do the face detection
     CvMemStorage *storage = cvCreateMemStorage(0);
-	CvSeq *facesSeq;
-	@synchronized(@"NSImage+JSMFaces useFrontalFaceCascade")
-	{
-		facesSeq = cvHaarDetectObjects(iplImage, frontalFaceCascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
-	}
+	CvHaarClassifierCascade *thisCascade = cvClone(frontalFaceCascade);
+	CvSeq *facesSeq = cvHaarDetectObjects(iplImage, thisCascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
+	cvReleaseHaarClassifierCascade(&thisCascade);
+	
 	NSUInteger faceCount = (facesSeq ? facesSeq->total : 0);
 	
 	// Convert and scale face areas
