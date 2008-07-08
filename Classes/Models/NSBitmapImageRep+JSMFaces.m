@@ -18,17 +18,23 @@
 	NSInteger channelCount = [self samplesPerPixel];
 	IplImage *iplImage = cvCreateImage(cvSize(pixelSize.width, pixelSize.height), IPL_DEPTH_8U, channelCount);
 	
-	NSUInteger pixelData[channelCount];
-	for (NSUInteger y = 0; y < pixelSize.height; y++)
+	if (([self bitsPerPixel] / [self samplesPerPixel] == 8) && !([self bitmapFormat] & NSFloatingPointSamplesBitmapFormat))
+		// Simply copy bitmap data
+		memcpy(iplImage->imageData, [self bitmapData], pixelSize.height * pixelSize.width * [self bitsPerPixel] / 8);
+	else
 	{
-		NSUInteger rowOffset = y * ((NSUInteger)pixelSize.width * channelCount);
-		for (NSUInteger x = 0; x < pixelSize.width; x++)
+		NSUInteger pixelData[channelCount];
+		for (NSUInteger y = 0; y < pixelSize.height; y++)
 		{
-			NSUInteger columnOffset = x * channelCount;
-			[self getPixel:pixelData atX:x y:y];
-			for (NSInteger i = 0; i < channelCount; i++)
+			NSUInteger rowOffset = y * ((NSUInteger)pixelSize.width * channelCount);
+			for (NSUInteger x = 0; x < pixelSize.width; x++)
 			{
-				iplImage->imageData[rowOffset + columnOffset + i] = pixelData[i];
+				NSUInteger columnOffset = x * channelCount;
+				[self getPixel:pixelData atX:x y:y];
+				for (NSInteger i = 0; i < channelCount; i++)
+				{
+					iplImage->imageData[rowOffset + columnOffset + i] = pixelData[i];
+				}
 			}
 		}
 	}
