@@ -19,16 +19,16 @@
 	IplImage *iplImage = cvCreateImage(cvSize(pixelSize.width, pixelSize.height), IPL_DEPTH_8U, channelCount);
 	
 	NSUInteger pixelData[channelCount];
-	for (NSUInteger x = 0; x < pixelSize.width; x++)
+	for (NSUInteger y = 0; y < pixelSize.height; y++)
 	{
-		for (NSUInteger y = 0; y < pixelSize.height; y++)
+		NSUInteger rowOffset = y * ((NSUInteger)pixelSize.width * channelCount);
+		for (NSUInteger x = 0; x < pixelSize.width; x++)
 		{
+			NSUInteger columnOffset = x * channelCount;
 			[self getPixel:pixelData atX:x y:y];
 			for (NSInteger i = 0; i < channelCount; i++)
 			{
-				NSUInteger rowOffset = y * ((NSUInteger)pixelSize.width * channelCount);
-				NSUInteger columnOffset = x * channelCount + i;
-				iplImage->imageData[rowOffset + columnOffset] = pixelData[i];
+				iplImage->imageData[rowOffset + columnOffset + i] = pixelData[i];
 			}
 		}
 	}
