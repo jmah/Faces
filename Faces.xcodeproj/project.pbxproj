@@ -145,10 +145,10 @@
 		28119B600E233CD700A8EB5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				28119B610E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.h */,
-				28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */,
 				28119B630E233CD700A8EB5B /* NSImage+JSMFaces.h */,
 				28119B640E233CD700A8EB5B /* NSImage+JSMFaces.m */,
+				28119B610E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.h */,
+				28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
