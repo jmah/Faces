@@ -14,6 +14,7 @@
 	NSArray *_sourceItems;
 	NSMutableArray *_faces;
 	NSOperationQueue *_faceDetectionQueue;
+	IBOutlet NSProgressIndicator *progressBar;
 }
 
 

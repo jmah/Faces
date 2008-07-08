@@ -17,8 +17,9 @@
 
 - (void)loadIPhotoLibraryThreaded;
 - (NSArray *)sourceItemsFromIPhotoLibrary;
-- (void)startFaceExtraction;
-- (void)addFaces:(NSArray *)faces forSourceItem:(NSMutableDictionary *)sourceItem;
+- (void)startFaceDetection;
+- (void)addFaces:(NSArray *)faces;
+- (void)updateProgressBar;
 
 @end
 
@@ -53,13 +54,19 @@
 }
 
 
+- (void)awakeFromNib;
+{
+	[progressBar startAnimation:self];
+}
+
+
 @synthesize sourceItems = _sourceItems;
 @synthesize faces = _faces;
 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification;
 {
-	[self performOnBackgroundThread:MSG(loadIPhotoLibraryThreaded)];
+	[self detachNewThreadSelector:MSG(loadIPhotoLibraryThreaded)];
 }
 
 
@@ -67,7 +74,7 @@
 {
 	NSArray *sourceItems = [self sourceItemsFromIPhotoLibrary];
 	[self performOnMainThread:MSG(setSourceItems:sourceItems) waitUntilDone:YES];
-	[self performOnMainThread:MSG(startFaceExtraction) waitUntilDone:NO];
+	[self performOnMainThread:MSG(startFaceDetection) waitUntilDone:NO];
 }
 
 
@@ -92,41 +99,35 @@
 		[sourceItem setObject:[NSDate dateWithTimeIntervalSinceReferenceDate:[[image objectForKey:@"DateAsTimerInterval"] doubleValue]] forKey:@"date"];
 		[sourceItem setObject:[image objectForKey:@"Caption"] forKey:@"title"];
 		
-#warning TEMP
-		[sourceItem setObject:@"pending" forKey:@"status"];
 		[sourceItems addObject:sourceItem];
 	}
 	return sourceItems;
 }
 
 
-static NSTimeInterval startTime;
-- (void)startFaceExtraction;
+- (void)startFaceDetection;
 {
 	[_faceDetectionQueue cancelAllOperations];
 	[_faceDetectionQueue waitUntilAllOperationsAreFinished];
-	NSLog(@"start");
-	startTime = [NSDate timeIntervalSinceReferenceDate];
-	//for (NSMutableDictionary *sourceItem in self.sourceItems)
-	for (NSMutableDictionary *sourceItem in [self.sourceItems subarrayWithRange:NSMakeRange(0, MIN(50, [self.sourceItems count]))])
+	[progressBar setDoubleValue:0];
+	[progressBar setMaxValue:[self.sourceItems count]];
+	[progressBar setIndeterminate:NO];
+	NSSortDescriptor *dateDescending = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+	for (NSMutableDictionary *sourceItem in [self.sourceItems sortedArrayUsingDescriptors:[NSArray arrayWithObject:dateDescending]])
 		[_faceDetectionQueue addOperation:[[JSMFaceDetectionOperation alloc] initWithSourceItem:sourceItem
 																					 controller:self]];
 }
 
 
-- (void)addFaces:(NSArray *)faces forSourceItem:(NSMutableDictionary *)sourceItem;
+- (void)addFaces:(NSArray *)faces;
 {
-#warning TEMP
-	[sourceItem setObject:[NSString stringWithFormat:@"%d faces", [faces count]] forKey:@"status"];
-	
 	[[self mutableArrayValueForKey:@"faces"] addObjectsFromArray:faces];
-	
-#warning TEMP
-	if ([[_faceDetectionQueue operations] count] == 1)
-	{
-		NSTimeInterval endTime = [NSDate timeIntervalSinceReferenceDate];
-		NSLog(@"End: %.1f", endTime - startTime);
-	}
+}
+
+
+- (void)updateProgressBar;
+{
+	[progressBar setDoubleValue:[progressBar maxValue] - [[_faceDetectionQueue operations] count]];
 }
 
 
@@ -157,7 +158,10 @@ static NSTimeInterval startTime;
 
 - (void)main;
 {
-	NSImage *image = [[NSImage alloc] initWithContentsOfFile:[self.sourceItem objectForKey:@"path"]];
+	NSData *data = [NSData dataWithContentsOfFile:[self.sourceItem objectForKey:@"path"]
+										  options:NSUncachedRead
+											error:NULL];
+	NSImage *image = [[NSImage alloc] initWithData:data];
 	if (!image)
 		return;
 	if (self.isCancelled)
@@ -193,7 +197,8 @@ static NSTimeInterval startTime;
 	if (self.isCancelled)
 		return;
 	
-	[self.controller performOnMainThread:MSG(addFaces:faces forSourceItem:self.sourceItem) waitUntilDone:NO];
+	[self.controller performOnMainThread:MSG(addFaces:faces) waitUntilDone:NO];
+	[self.controller performOnMainThread:MSG(updateProgressBar) waitUntilDone:NO];
 }
 
 
