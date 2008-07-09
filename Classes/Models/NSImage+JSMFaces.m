@@ -64,7 +64,7 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	if (scaleFactor != 1.0f)
 	{
 		NSSize newPixelSize = NSMakeSize(pixelSize.width * scaleFactor, pixelSize.height * scaleFactor);
-		NSImage *smallerImage = [[NSImage alloc] initWithSize:newPixelSize];
+		NSImage *smallerImage = [[[NSImage alloc] initWithSize:newPixelSize] autorelease];
 		
 		NSRect sourceRect = NSZeroRect;
 		sourceRect.size = self.size;
