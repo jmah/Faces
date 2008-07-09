@@ -18,6 +18,7 @@
 		28119BCB0E233EC600A8EB5B /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
 		282238FE0E235B64007A2705 /* RMMessage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 282238FD0E235B64007A2705 /* RMMessage.mm */; };
 		2822393A0E23611E007A2705 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
+		28A630DE0E24A48B00EA9BAA /* JSMFaceDetectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A630DC0E24A48300EA9BAA /* JSMFaceDetectionOperation.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,8 @@
 		28119BB90E233D7900A8EB5B /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		282238FC0E235B64007A2705 /* RMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMessage.h; sourceTree = "<group>"; };
 		282238FD0E235B64007A2705 /* RMMessage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMMessage.mm; sourceTree = "<group>"; };
+		28A630DB0E24A48300EA9BAA /* JSMFaceDetectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMFaceDetectionOperation.h; sourceTree = "<group>"; };
+		28A630DC0E24A48300EA9BAA /* JSMFaceDetectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMFaceDetectionOperation.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Faces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +134,8 @@
 			children = (
 				28119B5E0E233CD700A8EB5B /* JSMController.h */,
 				28119B5F0E233CD700A8EB5B /* JSMController.m */,
+				28A630DB0E24A48300EA9BAA /* JSMFaceDetectionOperation.h */,
+				28A630DC0E24A48300EA9BAA /* JSMFaceDetectionOperation.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 				28119B7A0E233CD700A8EB5B /* NSImage+JSMFaces.m in Sources */,
 				28119B7B0E233CD700A8EB5B /* main.m in Sources */,
 				282238FE0E235B64007A2705 /* RMMessage.mm in Sources */,
+				28A630DE0E24A48B00EA9BAA /* JSMFaceDetectionOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

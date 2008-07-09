@@ -21,4 +21,7 @@
 @property(readonly, copy) NSArray *sourceItems;
 @property(readwrite, retain) NSMutableArray *faces;
 
+- (void)addFaces:(NSArray *)faces;
+- (void)updateProgressBar;
+
 @end
