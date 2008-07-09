@@ -18,7 +18,23 @@
 		28119BCB0E233EC600A8EB5B /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
 		282238FE0E235B64007A2705 /* RMMessage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 282238FD0E235B64007A2705 /* RMMessage.mm */; };
 		2822393A0E23611E007A2705 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
+		28A630590E2498D700EA9BAA /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28119B6F0E233CD700A8EB5B /* haarcascade_frontalface_alt.xml */; };
+		28A6305B0E2498D700EA9BAA /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
+		28A6305E0E2498D700EA9BAA /* NSBitmapImageRep+JSMFaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */; };
+		28A6305F0E2498D700EA9BAA /* NSImage+JSMFaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B640E233CD700A8EB5B /* NSImage+JSMFaces.m */; };
+		28A630600E2498D700EA9BAA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B680E233CD700A8EB5B /* main.m */; };
+		28A630610E2498D700EA9BAA /* RMMessage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 282238FD0E235B64007A2705 /* RMMessage.mm */; };
+		28A630630E2498D700EA9BAA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		28A630640E2498D700EA9BAA /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
+		28A630650E2498D700EA9BAA /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
+		28A6309A0E249E3900EA9BAA /* LLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A630990E249E3900EA9BAA /* LLController.m */; };
+		28A630B60E24A17C00EA9BAA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28A630880E249DE200EA9BAA /* InfoPlist.strings */; };
+		28A630B70E24A17D00EA9BAA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28A6308A0E249DE200EA9BAA /* MainMenu.xib */; };
+		28A630D90E24A3A000EA9BAA /* Luchador Masks in Resources */ = {isa = PBXBuildFile; fileRef = 28A630D50E24A3A000EA9BAA /* Luchador Masks */; };
 		28A630DE0E24A48B00EA9BAA /* JSMFaceDetectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A630DC0E24A48300EA9BAA /* JSMFaceDetectionOperation.m */; };
+		28A6316F0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A6316E0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m */; };
+		28A6324D0E24C0FC00EA9BAA /* LLImageTransitionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A6324C0E24C0FC00EA9BAA /* LLImageTransitionView.m */; };
+		28A632790E24C98500EA9BAA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A632780E24C98500EA9BAA /* QuartzCore.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +46,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				2822393A0E23611E007A2705 /* OpenCV.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A6305A0E2498D700EA9BAA /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				28A6305B0E2498D700EA9BAA /* OpenCV.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,14 +98,36 @@
 		28119BB90E233D7900A8EB5B /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		282238FC0E235B64007A2705 /* RMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMessage.h; sourceTree = "<group>"; };
 		282238FD0E235B64007A2705 /* RMMessage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMMessage.mm; sourceTree = "<group>"; };
+		28A630690E2498D700EA9BAA /* Lucha Library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lucha Library.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28A630890E249DE200EA9BAA /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		28A6308B0E249DE200EA9BAA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		28A630980E249E3900EA9BAA /* LLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLController.h; sourceTree = "<group>"; };
+		28A630990E249E3900EA9BAA /* LLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLController.m; sourceTree = "<group>"; };
+		28A630D50E24A3A000EA9BAA /* Luchador Masks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Luchador Masks"; sourceTree = "<group>"; };
 		28A630DB0E24A48300EA9BAA /* JSMFaceDetectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMFaceDetectionOperation.h; sourceTree = "<group>"; };
 		28A630DC0E24A48300EA9BAA /* JSMFaceDetectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMFaceDetectionOperation.m; sourceTree = "<group>"; };
+		28A6316D0E24A9DE00EA9BAA /* LLFaceReplacementOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFaceReplacementOperation.h; sourceTree = "<group>"; };
+		28A6316E0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFaceReplacementOperation.m; sourceTree = "<group>"; };
+		28A6324B0E24C0FC00EA9BAA /* LLImageTransitionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLImageTransitionView.h; sourceTree = "<group>"; };
+		28A6324C0E24C0FC00EA9BAA /* LLImageTransitionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLImageTransitionView.m; sourceTree = "<group>"; };
+		28A632780E24C98500EA9BAA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Faces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		28A630620E2498D700EA9BAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28A630630E2498D700EA9BAA /* Cocoa.framework in Frameworks */,
+				28A630640E2498D700EA9BAA /* OpenCV.framework in Frameworks */,
+				28A630650E2498D700EA9BAA /* OpenCV.framework in Frameworks */,
+				28A632790E24C98500EA9BAA /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -96,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				28A632780E24C98500EA9BAA /* QuartzCore.framework */,
 				28119B560E233CC200A8EB5B /* OpenCV.framework */,
 			);
 			name = "Linked Frameworks";
@@ -115,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* Faces.app */,
+				28A630690E2498D700EA9BAA /* Lucha Library.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,6 +187,10 @@
 				28119B5F0E233CD700A8EB5B /* JSMController.m */,
 				28A630DB0E24A48300EA9BAA /* JSMFaceDetectionOperation.h */,
 				28A630DC0E24A48300EA9BAA /* JSMFaceDetectionOperation.m */,
+				28A630980E249E3900EA9BAA /* LLController.h */,
+				28A630990E249E3900EA9BAA /* LLController.m */,
+				28A6316D0E24A9DE00EA9BAA /* LLFaceReplacementOperation.h */,
+				28A6316E0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -154,6 +209,8 @@
 		28119B650E233CD700A8EB5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				28A6324B0E24C0FC00EA9BAA /* LLImageTransitionView.h */,
+				28A6324C0E24C0FC00EA9BAA /* LLImageTransitionView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -212,6 +269,16 @@
 			path = "Common Build Configurations";
 			sourceTree = "<group>";
 		};
+		28A6306D0E249DB800EA9BAA /* Lucha Library Resources */ = {
+			isa = PBXGroup;
+			children = (
+				28A630880E249DE200EA9BAA /* InfoPlist.strings */,
+				28A6308A0E249DE200EA9BAA /* MainMenu.xib */,
+				28A630D50E24A3A000EA9BAA /* Luchador Masks */,
+			);
+			path = "Lucha Library Resources";
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* Faces */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +286,7 @@
 				28119B5C0E233CD700A8EB5B /* Classes */,
 				28119B660E233CD700A8EB5B /* Other Sources */,
 				28119B690E233CD700A8EB5B /* Resources */,
+				28A6306D0E249DB800EA9BAA /* Lucha Library Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -237,6 +305,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		28A630550E2498D700EA9BAA /* Lucha Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28A630660E2498D700EA9BAA /* Build configuration list for PBXNativeTarget "Lucha Library" */;
+			buildPhases = (
+				28A630560E2498D700EA9BAA /* Resources */,
+				28A6305A0E2498D700EA9BAA /* Copy Frameworks */,
+				28A6305C0E2498D700EA9BAA /* Sources */,
+				28A630620E2498D700EA9BAA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Lucha Library";
+			productInstallPath = "$(HOME)/Applications";
+			productName = Faces;
+			productReference = 28A630690E2498D700EA9BAA /* Lucha Library.app */;
+			productType = "com.apple.product-type.application";
+		};
 		8D1107260486CEB800E47090 /* Faces */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Faces" */;
@@ -276,11 +363,23 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Faces */,
+				28A630550E2498D700EA9BAA /* Lucha Library */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		28A630560E2498D700EA9BAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28A630590E2498D700EA9BAA /* haarcascade_frontalface_alt.xml in Resources */,
+				28A630B60E24A17C00EA9BAA /* InfoPlist.strings in Resources */,
+				28A630B70E24A17D00EA9BAA /* MainMenu.xib in Resources */,
+				28A630D90E24A3A000EA9BAA /* Luchador Masks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D1107290486CEB800E47090 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,6 +393,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		28A6305C0E2498D700EA9BAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28A6305E0E2498D700EA9BAA /* NSBitmapImageRep+JSMFaces.m in Sources */,
+				28A6305F0E2498D700EA9BAA /* NSImage+JSMFaces.m in Sources */,
+				28A630600E2498D700EA9BAA /* main.m in Sources */,
+				28A630610E2498D700EA9BAA /* RMMessage.mm in Sources */,
+				28A6309A0E249E3900EA9BAA /* LLController.m in Sources */,
+				28A6316F0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m in Sources */,
+				28A6324D0E24C0FC00EA9BAA /* LLImageTransitionView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -326,9 +439,57 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		28A630880E249DE200EA9BAA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28A630890E249DE200EA9BAA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		28A6308A0E249DE200EA9BAA /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28A6308B0E249DE200EA9BAA /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		28A630670E2498D700EA9BAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28119BB20E233D7900A8EB5B /* Cocoa Application Debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_ID_PREFIX = com.rwinery.LuchaLibrary;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(SRCROOT)/Frameworks\\\"",
+				);
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_PREFIX_HEADER = "Other Sources/Faces_Prefix.pch";
+				INFOPLIST_FILE = Resources/Info.plist;
+				PRODUCT_NAME = "Lucha Library";
+			};
+			name = Debug;
+		};
+		28A630680E2498D700EA9BAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28119BB30E233D7900A8EB5B /* Cocoa Application Release.xcconfig */;
+			buildSettings = {
+				BUNDLE_ID_PREFIX = com.rwinery.LuchaLibrary;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(SRCROOT)/Frameworks\\\"",
+				);
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_PREFIX_HEADER = "Other Sources/Faces_Prefix.pch";
+				INFOPLIST_FILE = Resources/Info.plist;
+				PRODUCT_NAME = "Lucha Library";
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28119BB20E233D7900A8EB5B /* Cocoa Application Debug.xcconfig */;
@@ -382,6 +543,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		28A630660E2498D700EA9BAA /* Build configuration list for PBXNativeTarget "Lucha Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28A630670E2498D700EA9BAA /* Debug */,
+				28A630680E2498D700EA9BAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Faces" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
