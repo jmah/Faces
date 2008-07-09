@@ -12,6 +12,7 @@
 
 @interface NSBitmapImageRep (JSMFaces)
 
+// Caller has responsibility to cvReleaseImage(&iplImage);
 - (IplImage *)copyIplImage;
 
 @end

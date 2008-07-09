@@ -125,6 +125,7 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 }
 
 
+// Caller has responsibility to cvReleaseImage(&iplImage);
 - (IplImage *)copyIplImage;
 {
 	NSImageRep *rep = [self bestRepresentationForDevice:nil];

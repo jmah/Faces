@@ -13,6 +13,8 @@
 @interface NSImage (JSMFaces)
 
 - (NSArray *)detectFaces;
+
+// Caller has responsibility to cvReleaseImage(&iplImage);
 - (IplImage *)copyIplImage;
 
 @end

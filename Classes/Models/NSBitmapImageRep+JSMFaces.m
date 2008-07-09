@@ -12,6 +12,7 @@
 @implementation NSBitmapImageRep (JSMFaces)
 
 
+// Caller has responsibility to cvReleaseImage(&iplImage);
 - (IplImage *)copyIplImage;
 {
 	NSSize pixelSize = NSMakeSize(self.pixelsWide, self.pixelsHigh);
