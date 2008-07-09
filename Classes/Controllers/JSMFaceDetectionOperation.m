@@ -15,6 +15,7 @@
 
 @implementation JSMFaceDetectionOperation
 
+
 - (id)initWithSourceItem:(NSMutableDictionary *)sourceItem controller:(JSMController *)controller;
 {
 	if ((self = [super init]))
@@ -28,6 +29,7 @@
 
 @synthesize sourceItem = _sourceItem;
 @synthesize controller = _controller;
+
 
 - (CGFloat)rectOutsetFactor;
 {
