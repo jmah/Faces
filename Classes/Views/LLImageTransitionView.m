@@ -63,7 +63,7 @@
 
 - (NSTimeInterval)imageInterval;
 {
-	return 10.0;
+	return 7.0;
 }
 
 
