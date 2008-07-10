@@ -10,45 +10,92 @@
 #import "NSBitmapImageRep+JSMFaces.h"
 
 
-static id cascadeInitSemaphore;
-static NSCondition *frontalFaceCascadeLock;
-static NSMutableArray *availableFrontalFaceCascades;
+static NSString *cascadeFileExtension = @"xml";
+static NSMutableDictionary *cascades;
 static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 
 
 @implementation NSImage (JSMFaces)
 
+
 + (void)load;
 {
-	cascadeInitSemaphore = [[NSObject alloc] init];
+	cascades = [NSMutableDictionary dictionary];
+}
+
+
+- (NSString *)defaultCascadeName;
+{
+	return @"haarcascade_frontalface_alt";
 }
 
 
 - (NSArray *)detectFaces;
 {
-	@synchronized(cascadeInitSemaphore)
+	return [self detectFacesWithCascadeNamed:[self defaultCascadeName]];
+}
+
+
+- (NSArray *)detectFacesWithCascadeNamed:(NSString *)cascadeName;
+{
+	NSString *path = [[NSBundle mainBundle] pathForResource:cascadeName ofType:cascadeFileExtension];
+	if (!path)
+		[NSException raise:NSInvalidArgumentException format:@"Unable to find cascade %@.%@ in main bundle", cascadeName, cascadeFileExtension];
+	return [self detectFacesWithCascadeAtPath:path];
+}
+
+
+- (NSArray *)detectFacesWithCascadeAtPath:(NSString *)cascadePath;
+{
+	NSCondition *cascadeLock;
+	NSMutableArray *availableCascades;
+	
+	@synchronized(cascades)
 	{
-		if (!frontalFaceCascadeLock)
-			frontalFaceCascadeLock = [[NSCondition alloc] init];
-		
-		if (!availableFrontalFaceCascades)
+		NSDictionary *cascadeInfo = [cascades objectForKey:cascadePath];
+		if (!cascadeInfo)
 		{
-			NSString *cascadePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_alt" ofType:@"xml"];
-			if (!cascadePath)
-			{
-				NSLog(@"Unable to find cascade file in bundle");
-				abort();
-			}
-			availableFrontalFaceCascades = [NSMutableArray array];
-			CvHaarClassifierCascade *cascade = (CvHaarClassifierCascade *)cvLoad([cascadePath fileSystemRepresentation], 0, 0, 0);
-			[availableFrontalFaceCascades addObject:[NSValue valueWithPointer:cascade]];
-			
+			// Load and cache cascade
 			NSUInteger cascadeCount = [[NSProcessInfo processInfo] processorCount];
-			while ([availableFrontalFaceCascades count] < cascadeCount)
-				[availableFrontalFaceCascades addObject:[NSValue valueWithPointer:cvClone(cascade)]];
+			NSMutableArray *cascadeInstances = [NSMutableArray arrayWithCapacity:cascadeCount];
+			
+			CvHaarClassifierCascade *cascade = (CvHaarClassifierCascade *)cvLoad([cascadePath fileSystemRepresentation], 0, 0, 0);
+			[cascadeInstances addObject:[NSValue valueWithPointer:cascade]];
+			while ([cascadeInstances count] < cascadeCount)
+				[cascadeInstances addObject:[NSValue valueWithPointer:cvClone(cascade)]];
+			
+			cascadeInfo = [NSDictionary dictionaryWithObjectsAndKeys:[[NSCondition alloc] init], @"lock",
+																	 cascadeInstances, @"availableCascades",
+																	 nil];
+			[cascades setObject:cascadeInfo forKey:cascadePath];
 		}
+		
+		cascadeLock = [cascadeInfo objectForKey:@"lock"];
+		availableCascades = [cascadeInfo objectForKey:@"availableCascades"];
 	}
 	
+	// Get a cascade
+	[cascadeLock lock];
+	while ([availableCascades count] == 0)
+		[cascadeLock wait];
+	NSValue *cascadeWrapper = [availableCascades lastObject];
+	[availableCascades removeLastObject];
+	[cascadeLock unlock];
+	
+	NSArray *faces = [self detectFacesWithCascade:[cascadeWrapper pointerValue]];
+	
+	// Mark the cascade as available
+	[cascadeLock lock];
+	[availableCascades addObject:cascadeWrapper];
+	[cascadeLock signal];
+	[cascadeLock unlock];
+	
+	return faces;
+}
+
+
+- (NSArray *)detectFacesWithCascade:(CvHaarClassifierCascade *)cascade;
+{
 	// Calculate the resolution in pixels per point so we can scale it back later
 	NSImage *sourceImage = self;
 	NSImageRep *rep = [self bestRepresentationForDevice:nil];
@@ -81,29 +128,12 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	// Convert to IPL Image format
 	IplImage *iplImage = [sourceImage copyIplImage];
 	
-	// Get a cascade
-	[frontalFaceCascadeLock lock];
-	while ([availableFrontalFaceCascades count] == 0)
-		[frontalFaceCascadeLock wait];
-	NSValue *cascadeWrapper = [availableFrontalFaceCascades lastObject];
-	[availableFrontalFaceCascades removeLastObject];
-	[frontalFaceCascadeLock unlock];
-	
-	CvHaarClassifierCascade *thisCascade = [cascadeWrapper pointerValue];
-	
 	// Do the face detection
     CvMemStorage *storage = cvCreateMemStorage(0);
-	CvSeq *facesSeq = cvHaarDetectObjects(iplImage, thisCascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
-	
-	// Mark the cascade as available
-	[frontalFaceCascadeLock lock];
-	[availableFrontalFaceCascades addObject:cascadeWrapper];
-	[frontalFaceCascadeLock signal];
-	[frontalFaceCascadeLock unlock];
-	
-	NSUInteger faceCount = (facesSeq ? facesSeq->total : 0);
+	CvSeq *facesSeq = cvHaarDetectObjects(iplImage, cascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
 	
 	// Convert and scale face areas
+	NSUInteger faceCount = (facesSeq ? facesSeq->total : 0);
 	NSMutableArray *faceRects = [NSMutableArray arrayWithCapacity:faceCount];
 	for (NSUInteger i = 0; i < faceCount; i++)
 	{

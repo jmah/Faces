@@ -12,7 +12,11 @@
 
 @interface NSImage (JSMFaces)
 
+- (NSString *)defaultCascadeName;
 - (NSArray *)detectFaces;
+- (NSArray *)detectFacesWithCascadeNamed:(NSString *)cascadeName;
+- (NSArray *)detectFacesWithCascadeAtPath:(NSString *)cascadePath;
+- (NSArray *)detectFacesWithCascade:(CvHaarClassifierCascade *)cascade;
 
 // Caller has responsibility to cvReleaseImage(&iplImage);
 - (IplImage *)copyIplImage;
