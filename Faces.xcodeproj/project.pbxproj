@@ -73,7 +73,7 @@
 		28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBitmapImageRep+JSMFaces.m"; sourceTree = "<group>"; };
 		28119B630E233CD700A8EB5B /* NSImage+JSMFaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+JSMFaces.h"; sourceTree = "<group>"; };
 		28119B640E233CD700A8EB5B /* NSImage+JSMFaces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+JSMFaces.m"; sourceTree = "<group>"; };
-		28119B670E233CD700A8EB5B /* Faces_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Faces_Prefix.pch; sourceTree = "<group>"; };
+		28119B670E233CD700A8EB5B /* Cocoa Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cocoa Prefix.pch"; sourceTree = "<group>"; };
 		28119B680E233CD700A8EB5B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		28119B6B0E233CD700A8EB5B /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		28119B6D0E233CD700A8EB5B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -218,7 +218,7 @@
 		28119B660E233CD700A8EB5B /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				28119B670E233CD700A8EB5B /* Faces_Prefix.pch */,
+				28119B670E233CD700A8EB5B /* Cocoa Prefix.pch */,
 				28119B680E233CD700A8EB5B /* main.m */,
 				282238FC0E235B64007A2705 /* RMMessage.h */,
 				282238FD0E235B64007A2705 /* RMMessage.mm */,
@@ -468,7 +468,7 @@
 					"\\\"$(SRCROOT)/Frameworks\\\"",
 				);
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_PREFIX_HEADER = "Other Sources/Faces_Prefix.pch";
+				GCC_PREFIX_HEADER = "Other Sources/Cocoa Prefix.pch";
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = "Lucha Library";
 			};
@@ -484,7 +484,7 @@
 					"\\\"$(SRCROOT)/Frameworks\\\"",
 				);
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_PREFIX_HEADER = "Other Sources/Faces_Prefix.pch";
+				GCC_PREFIX_HEADER = "Other Sources/Cocoa Prefix.pch";
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = "Lucha Library";
 			};
@@ -500,7 +500,7 @@
 					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_PREFIX_HEADER = "Other Sources/Faces_Prefix.pch";
+				GCC_PREFIX_HEADER = "Other Sources/Cocoa Prefix.pch";
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = Faces;
 			};
@@ -516,7 +516,7 @@
 					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_PREFIX_HEADER = "Other Sources/Faces_Prefix.pch";
+				GCC_PREFIX_HEADER = "Other Sources/Cocoa Prefix.pch";
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = Faces;
 			};
