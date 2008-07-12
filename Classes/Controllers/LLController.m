@@ -97,7 +97,6 @@
 	for (NSDictionary *image in iPhotoImages)
 	{
 		NSMutableDictionary *sourceItem = [NSMutableDictionary dictionary];
-		[sourceItem setObject:[image objectForKey:@"GUID"] forKey:@"uuid"];
 		[sourceItem setObject:[image objectForKey:@"ImagePath"] forKey:@"path"];
 		[sourceItem setObject:[NSDate dateWithTimeIntervalSinceReferenceDate:[[image objectForKey:@"DateAsTimerInterval"] doubleValue]] forKey:@"date"];
 		[sourceItem setObject:[image objectForKey:@"Caption"] forKey:@"title"];
