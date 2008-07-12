@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		28119B570E233CC200A8EB5B /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
 		28119B780E233CD700A8EB5B /* JSMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B5F0E233CD700A8EB5B /* JSMController.m */; };
-		28119B790E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */; };
-		28119B7A0E233CD700A8EB5B /* NSImage+JSMFaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B640E233CD700A8EB5B /* NSImage+JSMFaces.m */; };
+		28119B790E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m */; };
+		28119B7A0E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B640E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.m */; };
 		28119B7B0E233CD700A8EB5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B680E233CD700A8EB5B /* main.m */; };
 		28119B7C0E233CD700A8EB5B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28119B6A0E233CD700A8EB5B /* InfoPlist.strings */; };
 		28119B7D0E233CD700A8EB5B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28119B6C0E233CD700A8EB5B /* MainMenu.xib */; };
@@ -20,8 +20,8 @@
 		2822393A0E23611E007A2705 /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
 		28A630590E2498D700EA9BAA /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28119B6F0E233CD700A8EB5B /* haarcascade_frontalface_alt.xml */; };
 		28A6305B0E2498D700EA9BAA /* OpenCV.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28119B560E233CC200A8EB5B /* OpenCV.framework */; };
-		28A6305E0E2498D700EA9BAA /* NSBitmapImageRep+JSMFaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */; };
-		28A6305F0E2498D700EA9BAA /* NSImage+JSMFaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B640E233CD700A8EB5B /* NSImage+JSMFaces.m */; };
+		28A6305E0E2498D700EA9BAA /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m */; };
+		28A6305F0E2498D700EA9BAA /* NSImage+JSMHaarCascadeObjectDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B640E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.m */; };
 		28A630600E2498D700EA9BAA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28119B680E233CD700A8EB5B /* main.m */; };
 		28A630610E2498D700EA9BAA /* RMMessage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 282238FD0E235B64007A2705 /* RMMessage.mm */; };
 		28A630630E2498D700EA9BAA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -69,10 +69,10 @@
 		28119B560E233CC200A8EB5B /* OpenCV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCV.framework; path = Frameworks/OpenCV.framework; sourceTree = "<group>"; };
 		28119B5E0E233CD700A8EB5B /* JSMController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMController.h; sourceTree = "<group>"; };
 		28119B5F0E233CD700A8EB5B /* JSMController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMController.m; sourceTree = "<group>"; };
-		28119B610E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBitmapImageRep+JSMFaces.h"; sourceTree = "<group>"; };
-		28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBitmapImageRep+JSMFaces.m"; sourceTree = "<group>"; };
-		28119B630E233CD700A8EB5B /* NSImage+JSMFaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+JSMFaces.h"; sourceTree = "<group>"; };
-		28119B640E233CD700A8EB5B /* NSImage+JSMFaces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+JSMFaces.m"; sourceTree = "<group>"; };
+		28119B610E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBitmapImageRep+JSMHaarCascadeObjectDetection.h"; sourceTree = "<group>"; };
+		28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBitmapImageRep+JSMHaarCascadeObjectDetection.m"; sourceTree = "<group>"; };
+		28119B630E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+JSMHaarCascadeObjectDetection.h"; sourceTree = "<group>"; };
+		28119B640E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+JSMHaarCascadeObjectDetection.m"; sourceTree = "<group>"; };
 		28119B670E233CD700A8EB5B /* Cocoa Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cocoa Prefix.pch"; sourceTree = "<group>"; };
 		28119B680E233CD700A8EB5B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		28119B6B0E233CD700A8EB5B /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -198,10 +198,10 @@
 		28119B600E233CD700A8EB5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				28119B630E233CD700A8EB5B /* NSImage+JSMFaces.h */,
-				28119B640E233CD700A8EB5B /* NSImage+JSMFaces.m */,
-				28119B610E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.h */,
-				28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m */,
+				28119B630E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.h */,
+				28119B640E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.m */,
+				28119B610E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.h */,
+				28119B620E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -397,8 +397,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28A6305E0E2498D700EA9BAA /* NSBitmapImageRep+JSMFaces.m in Sources */,
-				28A6305F0E2498D700EA9BAA /* NSImage+JSMFaces.m in Sources */,
+				28A6305E0E2498D700EA9BAA /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m in Sources */,
+				28A6305F0E2498D700EA9BAA /* NSImage+JSMHaarCascadeObjectDetection.m in Sources */,
 				28A630600E2498D700EA9BAA /* main.m in Sources */,
 				28A630610E2498D700EA9BAA /* RMMessage.mm in Sources */,
 				28A6309A0E249E3900EA9BAA /* LLController.m in Sources */,
@@ -412,8 +412,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				28119B780E233CD700A8EB5B /* JSMController.m in Sources */,
-				28119B790E233CD700A8EB5B /* NSBitmapImageRep+JSMFaces.m in Sources */,
-				28119B7A0E233CD700A8EB5B /* NSImage+JSMFaces.m in Sources */,
+				28119B790E233CD700A8EB5B /* NSBitmapImageRep+JSMHaarCascadeObjectDetection.m in Sources */,
+				28119B7A0E233CD700A8EB5B /* NSImage+JSMHaarCascadeObjectDetection.m in Sources */,
 				28119B7B0E233CD700A8EB5B /* main.m in Sources */,
 				282238FE0E235B64007A2705 /* RMMessage.mm in Sources */,
 				28A630DE0E24A48B00EA9BAA /* JSMFaceDetectionOperation.m in Sources */,

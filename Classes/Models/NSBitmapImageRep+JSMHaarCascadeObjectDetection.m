@@ -1,15 +1,15 @@
 //
-//  NSBitmapImageRep+JSMFaces.m
+//  NSBitmapImageRep+JSMHaarCascadeObjectDetection.m
 //  Faces
 //
 //  Created by Jonathon Mah on 2008-07-08.
 //  Copyright 2008 Jonathon Mah. All rights reserved.
 //
 
-#import "NSBitmapImageRep+JSMFaces.h"
+#import "NSBitmapImageRep+JSMHaarCascadeObjectDetection.h"
 
 
-@implementation NSBitmapImageRep (JSMFaces)
+@implementation NSBitmapImageRep (JSMHaarCascadeObjectDetection)
 
 
 // Caller has responsibility to cvReleaseImage(&iplImage);

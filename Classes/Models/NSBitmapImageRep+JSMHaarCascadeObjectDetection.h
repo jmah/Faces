@@ -1,5 +1,5 @@
 //
-//  NSBitmapImageRep+JSMFaces.h
+//  NSBitmapImageRep+JSMHaarCascadeObjectDetection.h
 //  Faces
 //
 //  Created by Jonathon Mah on 2008-07-08.
@@ -10,7 +10,7 @@
 #import <OpenCV/OpenCV.h>
 
 
-@interface NSBitmapImageRep (JSMFaces)
+@interface NSBitmapImageRep (JSMHaarCascadeObjectDetection)
 
 // Caller has responsibility to cvReleaseImage(&iplImage);
 - (IplImage *)copyIplImage;

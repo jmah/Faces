@@ -9,7 +9,7 @@
 #import "LLFaceReplacementOperation.h"
 #import "LLController.h"
 #import "RMMessage.h"
-#import "NSImage+JSMFaces.h"
+#import "NSImage+JSMHaarCascadeObjectDetection.h"
 
 
 @implementation LLFaceReplacementOperation
@@ -49,8 +49,9 @@
 	if (self.isCancelled)
 		return;
 	
-	NSArray *faceRects = [image detectFaces];
-	if ([faceRects count] < self.minFaceCount)
+	NSUInteger faceCount;
+	NSRectArray faceRects = [image detectObjectsWithHaarCascadeNamed:@"haarcascade_frontalface_alt" count:&faceCount];
+	if (faceCount < self.minFaceCount)
 		return;
 	if (self.isCancelled)
 		return;
@@ -63,9 +64,9 @@
 	NSSize resolution = NSMakeSize(pixelSize.width / pointSize.width, pixelSize.height / pointSize.height);
 	
 	[image lockFocus];
-	for (NSValue *wrappedRect in faceRects)
+	for (NSUInteger i = 0; i < faceCount; i++)
 	{
-		NSRect rect = [wrappedRect rectValue];
+		NSRect rect = faceRects[i];
 		rect.origin.x *= resolution.width;
 		rect.origin.y *= resolution.height;
 		rect.size.width *= resolution.width;

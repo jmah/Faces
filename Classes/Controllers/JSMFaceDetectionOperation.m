@@ -9,7 +9,7 @@
 #import "JSMFaceDetectionOperation.h"
 #import "JSMController.h"
 #import "RMMessage.h"
-#import "NSImage+JSMFaces.h"
+#import "NSImage+JSMHaarCascadeObjectDetection.h"
 
 
 
@@ -48,11 +48,13 @@
 	if (self.isCancelled)
 		return;
 	
-	NSMutableArray *faces = [NSMutableArray array];
 	NSRect imageRect = NSMakeRect(0.0f, 0.0f, image.size.width, image.size.height);
-	for (NSValue *wrappedRect in [image detectFaces])
+	NSUInteger faceCount;
+	NSRectArray faceRects = [image detectObjectsWithHaarCascadeNamed:@"haarcascade_frontalface_alt" count:&faceCount];
+	NSMutableArray *faces = [NSMutableArray arrayWithCapacity:faceCount];
+	for (NSUInteger i = 0; i < faceCount; i++)
 	{
-		NSRect rect = [wrappedRect rectValue];
+		NSRect rect = faceRects[i];
 		NSRect expandedRect = NSInsetRect(rect, -self.rectOutsetFactor * NSWidth(rect), -self.rectOutsetFactor * NSHeight(rect));
 		NSRect clippedRect = NSIntersectionRect(expandedRect, imageRect);
 		if (NSEqualSizes(clippedRect.size, NSZeroSize))
@@ -69,7 +71,7 @@
 		[faces addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 						  face, @"image",
 						  [self.sourceItem objectForKey:@"uuid"], @"uuid",
-						  wrappedRect, @"rect",
+						  [NSValue valueWithRect:rect], @"rect",
 						  nil]];
 		if (self.isCancelled)
 			return;

@@ -1,13 +1,13 @@
 //
-//  NSImage+JSMFaces.m
+//  NSImage+JSMHaarCascadeObjectDetection.m
 //  Faces
 //
 //  Created by Jonathon Mah on 2008-07-08.
 //  Copyright 2008 Jonathon Mah. All rights reserved.
 //
 
-#import "NSImage+JSMFaces.h"
-#import "NSBitmapImageRep+JSMFaces.h"
+#import "NSImage+JSMHaarCascadeObjectDetection.h"
+#import "NSBitmapImageRep+JSMHaarCascadeObjectDetection.h"
 
 
 static NSString *cascadeFileExtension = @"xml";
@@ -15,7 +15,7 @@ static NSMutableDictionary *cascades;
 static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 
 
-@implementation NSImage (JSMFaces)
+@implementation NSImage (JSMHaarCascadeObjectDetection)
 
 
 + (void)load;
@@ -24,28 +24,16 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 }
 
 
-- (NSString *)defaultCascadeName;
-{
-	return @"haarcascade_frontalface_alt";
-}
-
-
-- (NSArray *)detectFaces;
-{
-	return [self detectFacesWithCascadeNamed:[self defaultCascadeName]];
-}
-
-
-- (NSArray *)detectFacesWithCascadeNamed:(NSString *)cascadeName;
+- (NSRectArray)detectObjectsWithHaarCascadeNamed:(NSString *)cascadeName count:(NSUInteger *)outCount;
 {
 	NSString *path = [[NSBundle mainBundle] pathForResource:cascadeName ofType:cascadeFileExtension];
 	if (!path)
 		[NSException raise:NSInvalidArgumentException format:@"Unable to find cascade %@.%@ in main bundle", cascadeName, cascadeFileExtension];
-	return [self detectFacesWithCascadeAtPath:path];
+	return [self detectObjectsWithHaarCascadeAtPath:path count:outCount];
 }
 
 
-- (NSArray *)detectFacesWithCascadeAtPath:(NSString *)cascadePath;
+- (NSRectArray)detectObjectsWithHaarCascadeAtPath:(NSString *)cascadePath count:(NSUInteger *)outCount;
 {
 	NSCondition *cascadeLock;
 	NSMutableArray *availableCascades;
@@ -60,6 +48,8 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 			NSMutableArray *cascadeInstances = [NSMutableArray arrayWithCapacity:cascadeCount];
 			
 			CvHaarClassifierCascade *cascade = (CvHaarClassifierCascade *)cvLoad([cascadePath fileSystemRepresentation], 0, 0, 0);
+			if (!cascade)
+				[NSException raise:NSInvalidArgumentException format:@"Unable to load cascade at path %@", cascadePath];
 			[cascadeInstances addObject:[NSValue valueWithPointer:cascade]];
 			while ([cascadeInstances count] < cascadeCount)
 				[cascadeInstances addObject:[NSValue valueWithPointer:cvClone(cascade)]];
@@ -82,7 +72,7 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	[availableCascades removeLastObject];
 	[cascadeLock unlock];
 	
-	NSArray *faces = [self detectFacesWithCascade:[cascadeWrapper pointerValue]];
+	NSRectArray objectRects = [self detectObjectsWithHaarCascade:[cascadeWrapper pointerValue] count:outCount];
 	
 	// Mark the cascade as available
 	[cascadeLock lock];
@@ -90,11 +80,11 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	[cascadeLock signal];
 	[cascadeLock unlock];
 	
-	return faces;
+	return objectRects;
 }
 
 
-- (NSArray *)detectFacesWithCascade:(CvHaarClassifierCascade *)cascade;
+- (NSRectArray)detectObjectsWithHaarCascade:(CvHaarClassifierCascade *)cascade count:(NSUInteger *)outCount;
 {
 	// Calculate the resolution in pixels per point so we can scale it back later
 	NSImage *sourceImage = self;
@@ -133,25 +123,32 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	CvSeq *facesSeq = cvHaarDetectObjects(iplImage, cascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
 	
 	// Convert and scale face areas
-	NSUInteger faceCount = (facesSeq ? facesSeq->total : 0);
-	NSMutableArray *faceRects = [NSMutableArray arrayWithCapacity:faceCount];
-	for (NSUInteger i = 0; i < faceCount; i++)
+	NSUInteger objectCount = (facesSeq ? facesSeq->total : 0);
+	*outCount = objectCount;
+	NSRectArray rects = NULL;
+	if (objectCount > 0)
+	{
+		rects = NSAllocateCollectable(objectCount * sizeof(NSRect), 0);
+		if (!rects)
+			[NSException raise:NSGenericException format:@"Unable to allocate collectable memory for object rects"];
+	}
+	for (NSUInteger i = 0; i < objectCount; i++)
 	{
 		CvRect *cvRect = (CvRect*)cvGetSeqElem(facesSeq, i);
-		NSRect flippedRect = NSMakeRect(cvRect->x, 0.0f, cvRect->width, cvRect->height);
-		flippedRect.origin.y = iplImage->height - cvRect->y - cvRect->height;
+		NSRect *rect = &rects[i];
+		*rect = NSMakeRect(cvRect->x, 0.0f, cvRect->width, cvRect->height);
+		rect->origin.y = iplImage->height - cvRect->y - cvRect->height;
 		
-		flippedRect.origin.x /= scaleFactor * resolution.width;
-		flippedRect.origin.y /= scaleFactor * resolution.height;
-		flippedRect.size.width /= scaleFactor * resolution.width;
-		flippedRect.size.height /= scaleFactor * resolution.height;
-		[faceRects addObject:[NSValue valueWithRect:flippedRect]];
+		rect->origin.x /= scaleFactor * resolution.width;
+		rect->origin.y /= scaleFactor * resolution.height;
+		rect->size.width /= scaleFactor * resolution.width;
+		rect->size.height /= scaleFactor * resolution.height;
 	}
 	
 	cvReleaseMemStorage(&storage);
 	cvReleaseImage(&iplImage);
 	
-	return faceRects;
+	return rects;
 }
 
 
