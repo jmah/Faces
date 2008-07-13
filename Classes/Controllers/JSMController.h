@@ -7,14 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "JSMHaarCascadeController.h"
 
 
-@interface JSMController : NSObject
+@interface JSMController : NSObject <JSMHaarCascadeDelegate>
 {
+	JSMHaarCascadeController *_haarCascadeController;
 	NSArray *_sourceItems;
+	NSDictionary *_sourceItemModificationDatesByPath;
 	NSMutableArray *_faces;
-	NSOperationQueue *_faceDetectionQueue;
-	IBOutlet NSProgressIndicator *progressBar;
+	NSOperationQueue *_faceExtractionQueue;
 }
 
 
@@ -22,6 +24,5 @@
 @property(readwrite, retain) NSMutableArray *faces;
 
 - (void)addFaces:(NSArray *)faces;
-- (void)updateProgressBar;
 
 @end

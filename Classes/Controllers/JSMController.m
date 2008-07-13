@@ -8,7 +8,7 @@
 
 #import "JSMController.h"
 #import "RMMessage.h"
-#import "JSMFaceDetectionOperation.h"
+#import "JSMFaceExtractionOperation.h"
 
 
 @interface JSMController ()
@@ -29,18 +29,18 @@
 {
 	if ((self = [super init]))
 	{
+#warning Generate APp Support path
+		NSString *haarCascadeStoragePath = [@"~/Library/Caches/com.jonathonmah.haarcascadeobjects.plist" stringByExpandingTildeInPath];
+		NSURL *haarCascadeStorageURL = [NSURL fileURLWithPath:haarCascadeStoragePath];
+		_haarCascadeController = [[JSMHaarCascadeController alloc] initWithStorageURL:haarCascadeStorageURL];
+		_haarCascadeController.delegate = self;
+		
 		_sourceItems = [NSArray array];
 		_faces = [NSMutableArray array];
-		_faceDetectionQueue = [[NSOperationQueue alloc] init];
-		[_faceDetectionQueue setMaxConcurrentOperationCount:[[NSProcessInfo processInfo] activeProcessorCount]];
+		_faceExtractionQueue = [[NSOperationQueue alloc] init];
+		[_faceExtractionQueue setMaxConcurrentOperationCount:[[NSProcessInfo processInfo] activeProcessorCount]];
 	}
 	return self;
-}
-
-
-- (void)awakeFromNib;
-{
-	[progressBar startAnimation:self];
 }
 
 
@@ -78,9 +78,9 @@
 	for (NSDictionary *image in iPhotoImages)
 	{
 		NSMutableDictionary *sourceItem = [NSMutableDictionary dictionary];
-		[sourceItem setObject:[image objectForKey:@"GUID"] forKey:@"uuid"];
 		[sourceItem setObject:[image objectForKey:@"ImagePath"] forKey:@"path"];
 		[sourceItem setObject:[NSDate dateWithTimeIntervalSinceReferenceDate:[[image objectForKey:@"DateAsTimerInterval"] doubleValue]] forKey:@"date"];
+		[sourceItem setObject:[NSDate dateWithTimeIntervalSinceReferenceDate:[[image objectForKey:@"ModDateAsTimerInterval"] doubleValue]] forKey:@"modificationDate"];
 		[sourceItem setObject:[image objectForKey:@"Caption"] forKey:@"title"];
 		
 		[sourceItems addObject:sourceItem];
@@ -89,29 +89,54 @@
 }
 
 
+- (void)setSourceItems:(NSArray *)items;
+{
+	_sourceItems = [items copy];
+	
+	NSMutableDictionary *modDates = [NSMutableDictionary dictionaryWithCapacity:[_sourceItems count]];
+	for (NSDictionary *item in _sourceItems)
+		[modDates setObject:[item objectForKey:@"modificationDate"]
+					 forKey:[item objectForKey:@"path"]];
+	_sourceItemModificationDatesByPath = modDates;
+}
+
+
 - (void)startFaceDetection;
 {
-	[_faceDetectionQueue cancelAllOperations];
-	[_faceDetectionQueue waitUntilAllOperationsAreFinished];
-	[progressBar setDoubleValue:0];
-	[progressBar setMaxValue:[self.sourceItems count]];
-	[progressBar setIndeterminate:NO];
+	[_faceExtractionQueue cancelAllOperations];
+	[_faceExtractionQueue waitUntilAllOperationsAreFinished];
+	
 	NSSortDescriptor *dateDescending = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-	for (NSMutableDictionary *sourceItem in [self.sourceItems sortedArrayUsingDescriptors:[NSArray arrayWithObject:dateDescending]])
-		[_faceDetectionQueue addOperation:[[JSMFaceDetectionOperation alloc] initWithSourceItem:sourceItem
-																					 controller:self]];
+	NSArray *sortedItems = [self.sourceItems sortedArrayUsingDescriptors:[NSArray arrayWithObject:dateDescending]];
+	[_haarCascadeController beginDetectionOfImagesAtPaths:[sortedItems valueForKey:@"path"] withCascadeNamed:@"haarcascade_frontalface_alt"];
+}
+
+
+- (void)haarCascadeController:(JSMHaarCascadeController *)controller
+			   didDetectRects:(NSRectArray)rects
+						count:(NSUInteger)rectCount
+			withCascadeAtPath:(NSString *)cascadePath
+					 forImage:(NSImage *)image
+					   atPath:(NSString *)path;
+{
+	if (rectCount > 0)
+		[_faceExtractionQueue addOperation:[[JSMFaceExtractionOperation alloc] initWithImage:image
+																					   rects:rects
+																					   count:rectCount
+																					delegate:self]];
+}
+
+
+- (NSDate *)haarCascadeController:(JSMHaarCascadeController *)controller
+	 modificationDateOfFileAtPath:(NSString *)path;
+{
+	return [_sourceItemModificationDatesByPath objectForKey:path];
 }
 
 
 - (void)addFaces:(NSArray *)faces;
 {
 	[[self mutableArrayValueForKey:@"faces"] addObjectsFromArray:faces];
-}
-
-
-- (void)updateProgressBar;
-{
-	[progressBar setDoubleValue:[progressBar maxValue] - [[_faceDetectionQueue operations] count]];
 }
 
 
