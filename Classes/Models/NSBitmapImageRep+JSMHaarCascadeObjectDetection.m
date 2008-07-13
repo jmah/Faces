@@ -18,10 +18,11 @@
 	NSSize pixelSize = NSMakeSize(self.pixelsWide, self.pixelsHigh);
 	NSInteger channelCount = [self samplesPerPixel];
 	IplImage *iplImage = cvCreateImage(cvSize(pixelSize.width, pixelSize.height), IPL_DEPTH_8U, channelCount);
+	NSAssert(iplImage, @"Unable to allocate IPL image");
 	
 	if (([self bitsPerPixel] / [self samplesPerPixel] == 8) && !([self bitmapFormat] & NSFloatingPointSamplesBitmapFormat))
 		// Simply copy bitmap data
-		memcpy(iplImage->imageData, [self bitmapData], pixelSize.height * pixelSize.width * [self bitsPerPixel] / 8);
+		memcpy(iplImage->imageData, [self bitmapData], pixelSize.height * pixelSize.width * channelCount);
 	else
 	{
 		NSUInteger pixelData[channelCount];

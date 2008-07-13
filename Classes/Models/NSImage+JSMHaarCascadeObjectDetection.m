@@ -10,7 +10,8 @@
 #import "NSBitmapImageRep+JSMHaarCascadeObjectDetection.h"
 
 
-static NSString *cascadeFileExtension = @"xml";
+NSString *JSMHaarCascadeFileExtension = @"xml";
+
 static NSMutableDictionary *cascades;
 static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 
@@ -26,9 +27,9 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 
 - (NSRectArray)detectObjectsWithHaarCascadeNamed:(NSString *)cascadeName count:(NSUInteger *)outCount;
 {
-	NSString *path = [[NSBundle mainBundle] pathForResource:cascadeName ofType:cascadeFileExtension];
+	NSString *path = [[NSBundle mainBundle] pathForResource:cascadeName ofType:JSMHaarCascadeFileExtension];
 	if (!path)
-		[NSException raise:NSInvalidArgumentException format:@"Unable to find cascade %@.%@ in main bundle", cascadeName, cascadeFileExtension];
+		[NSException raise:NSInvalidArgumentException format:@"Unable to find cascade %@.%@ in main bundle", cascadeName, JSMHaarCascadeFileExtension];
 	return [self detectObjectsWithHaarCascadeAtPath:path count:outCount];
 }
 
@@ -117,9 +118,11 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	
 	// Convert to IPL Image format
 	IplImage *iplImage = [sourceImage copyIplImage];
+	NSAssert(iplImage, @"Unable to get IPL image");
 	
 	// Do the face detection
     CvMemStorage *storage = cvCreateMemStorage(0);
+	NSAssert(storage, @"Unable to create a memory storage area for cascade detection");
 	CvSeq *facesSeq = cvHaarDetectObjects(iplImage, cascade, storage, 1.1, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
 	
 	// Convert and scale face areas
@@ -129,8 +132,7 @@ static NSSize maxSizeOfImageForDetection = {640.0f, 640.0f};
 	if (objectCount > 0)
 	{
 		rects = NSAllocateCollectable(objectCount * sizeof(NSRect), 0);
-		if (!rects)
-			[NSException raise:NSGenericException format:@"Unable to allocate collectable memory for object rects"];
+		NSAssert(rects, @"Unable to allocate collectable memory for object rects");
 	}
 	for (NSUInteger i = 0; i < objectCount; i++)
 	{

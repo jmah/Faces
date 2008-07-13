@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenCV/OpenCV.h>
 
+extern NSString *JSMHaarCascadeFileExtension;
+
 
 @interface NSImage (JSMHaarCascadeObjectDetection)
 
