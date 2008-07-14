@@ -40,7 +40,6 @@
 		28A630B70E24A17D00EA9BAA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28A6308A0E249DE200EA9BAA /* MainMenu.xib */; };
 		28A630D90E24A3A000EA9BAA /* Luchador Masks in Resources */ = {isa = PBXBuildFile; fileRef = 28A630D50E24A3A000EA9BAA /* Luchador Masks */; };
 		28A630DE0E24A48B00EA9BAA /* JSMFaceExtractionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A630DC0E24A48300EA9BAA /* JSMFaceExtractionOperation.m */; };
-		28A6316F0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A6316E0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m */; };
 		28A6324D0E24C0FC00EA9BAA /* LLImageTransitionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A6324C0E24C0FC00EA9BAA /* LLImageTransitionView.m */; };
 		28A632790E24C98500EA9BAA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A632780E24C98500EA9BAA /* QuartzCore.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -121,8 +120,6 @@
 		28A630D50E24A3A000EA9BAA /* Luchador Masks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Luchador Masks"; sourceTree = "<group>"; };
 		28A630DB0E24A48300EA9BAA /* JSMFaceExtractionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMFaceExtractionOperation.h; sourceTree = "<group>"; };
 		28A630DC0E24A48300EA9BAA /* JSMFaceExtractionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMFaceExtractionOperation.m; sourceTree = "<group>"; };
-		28A6316D0E24A9DE00EA9BAA /* LLFaceReplacementOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFaceReplacementOperation.h; sourceTree = "<group>"; };
-		28A6316E0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFaceReplacementOperation.m; sourceTree = "<group>"; };
 		28A6324B0E24C0FC00EA9BAA /* LLImageTransitionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLImageTransitionView.h; sourceTree = "<group>"; };
 		28A6324C0E24C0FC00EA9BAA /* LLImageTransitionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLImageTransitionView.m; sourceTree = "<group>"; };
 		28A632780E24C98500EA9BAA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
@@ -211,8 +208,6 @@
 				28A630DC0E24A48300EA9BAA /* JSMFaceExtractionOperation.m */,
 				28A630980E249E3900EA9BAA /* LLController.h */,
 				28A630990E249E3900EA9BAA /* LLController.m */,
-				28A6316D0E24A9DE00EA9BAA /* LLFaceReplacementOperation.h */,
-				28A6316E0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -424,7 +419,6 @@
 				28A630600E2498D700EA9BAA /* main.m in Sources */,
 				28A630610E2498D700EA9BAA /* RMMessage.mm in Sources */,
 				28A6309A0E249E3900EA9BAA /* LLController.m in Sources */,
-				28A6316F0E24A9DE00EA9BAA /* LLFaceReplacementOperation.m in Sources */,
 				28A6324D0E24C0FC00EA9BAA /* LLImageTransitionView.m in Sources */,
 				2835D4C60E261F1200F52BDB /* JSMHaarCascadeController.m in Sources */,
 				28005DE70E2A655F00BE7525 /* JSMHaarCascadeDetectionOperation.m in Sources */,

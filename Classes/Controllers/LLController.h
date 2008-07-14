@@ -7,16 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "JSMHaarCascadeController.h"
 
 @class LLImageTransitionView;
 
 
-@interface LLController : NSObject
+@interface LLController : NSObject <JSMHaarCascadeDelegate>
 {
-	NSArray *_sourceItems;
+	JSMHaarCascadeController *_haarCascadeController;
 	NSMutableArray *_maskImages;
-	NSMutableArray *_luchadorImages;
-	NSOperationQueue *_faceDetectionQueue;
+	NSDictionary *_sourceItemModificationDatesByPath;
+	NSMutableDictionary *_luchadorImages;
 	
 	IBOutlet NSProgressIndicator *progressSpinner;
 	IBOutlet LLImageTransitionView *imageTransitionView;
@@ -24,9 +25,9 @@
 
 
 @property(readonly) NSArray *maskImages;
-@property(readonly, copy) NSArray *sourceItems;
-@property(readonly) NSArray *luchadorImages;
+@property(readonly) NSArray *allImageKeys;
+@property(readonly) NSUInteger minFaceCount;
 
-- (void)addLuchadorImage:(NSImage *)image forItemWithUUID:(NSString *)uuid;
+- (NSImage *)imageForKey:(NSString *)key;
 
 @end

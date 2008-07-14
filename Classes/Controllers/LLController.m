@@ -9,17 +9,17 @@
 #import "LLController.h"
 #import "LLImageTransitionView.h"
 #import "RMMessage.h"
-#import "LLFaceReplacementOperation.h"
+
+
+static CGFloat faceRectOutsetFactor = 0.2f;
 
 
 @interface LLController ()
 
-@property(readwrite, copy) NSArray *sourceItems;
-
 - (void)loadMaskImages;
 - (void)loadIPhotoLibraryThreaded;
 - (NSArray *)sourceItemsFromIPhotoLibrary;
-- (void)startFaceDetection;
+- (void)startFaceDetectionForSourceItems:(NSArray *)sourceItems;
 - (void)updateProgressSpinner;
 
 @end
@@ -32,11 +32,13 @@
 {
 	if ((self = [super init]))
 	{
-		_sourceItems = [NSArray array];
 		_maskImages = [NSMutableArray array];
-		_luchadorImages = [NSMutableArray array];
-		_faceDetectionQueue = [[NSOperationQueue alloc] init];
-		[_faceDetectionQueue setMaxConcurrentOperationCount:[[NSProcessInfo processInfo] activeProcessorCount]];
+		_luchadorImages = [NSMutableDictionary dictionary];
+		
+		NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+		NSURL *haarCascadeStorageURL = [NSURL fileURLWithPath:[cachesPath stringByAppendingPathComponent:@"com.jonathonmah.haarcascadeobjects.plist"]];
+		_haarCascadeController = [[JSMHaarCascadeController alloc] initWithStorageURL:haarCascadeStorageURL];
+		_haarCascadeController.delegate = self;
 	}
 	return self;
 }
@@ -44,18 +46,33 @@
 
 - (void)awakeFromNib;
 {
-	[NSTimer scheduledTimerWithTimeInterval:1.0f
-									 target:self
-								   selector:@selector(updateProgressSpinner)
-								   userInfo:nil
-									repeats:YES];
-	[imageTransitionView bind:@"images" toObject:self withKeyPath:@"luchadorImages" options:nil];
+	[self updateProgressSpinner];
+	[imageTransitionView bind:@"imageKeys" toObject:self withKeyPath:@"allImageKeys" options:nil];
+}
+
+
+- (void)updateProgressSpinner;
+{
+	if ([self.allImageKeys count] > 0)
+		[progressSpinner stopAnimation:self];
+	else
+		[progressSpinner startAnimation:self];
 }
 
 
 @synthesize maskImages = _maskImages;
-@synthesize sourceItems = _sourceItems;
-@synthesize luchadorImages = _luchadorImages;
+
+
+- (NSUInteger)minFaceCount;
+{
+	return 2;
+}
+
+
+- (NSArray *)allImageKeys;
+{
+	return [_luchadorImages allKeys];
+}
 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification;
@@ -76,8 +93,7 @@
 - (void)loadIPhotoLibraryThreaded;
 {
 	NSArray *sourceItems = [self sourceItemsFromIPhotoLibrary];
-	[self performOnMainThread:MSG(setSourceItems:sourceItems) waitUntilDone:YES];
-	[self performOnMainThread:MSG(startFaceDetection) waitUntilDone:NO];
+	[self performOnMainThread:MSG(startFaceDetectionForSourceItems:sourceItems) waitUntilDone:NO];
 }
 
 
@@ -99,6 +115,7 @@
 		NSMutableDictionary *sourceItem = [NSMutableDictionary dictionary];
 		[sourceItem setObject:[image objectForKey:@"ImagePath"] forKey:@"path"];
 		[sourceItem setObject:[NSDate dateWithTimeIntervalSinceReferenceDate:[[image objectForKey:@"DateAsTimerInterval"] doubleValue]] forKey:@"date"];
+		[sourceItem setObject:[NSDate dateWithTimeIntervalSinceReferenceDate:[[image objectForKey:@"ModDateAsTimerInterval"] doubleValue]] forKey:@"modificationDate"];
 		[sourceItem setObject:[image objectForKey:@"Caption"] forKey:@"title"];
 		
 		[sourceItems addObject:sourceItem];
@@ -107,35 +124,82 @@
 }
 
 
-- (void)startFaceDetection;
+- (void)startFaceDetectionForSourceItems:(NSArray *)sourceItems;
 {
-	[_faceDetectionQueue cancelAllOperations];
-	[_faceDetectionQueue waitUntilAllOperationsAreFinished];
+	NSMutableDictionary *modDates = [NSMutableDictionary dictionaryWithCapacity:[sourceItems count]];
+	for (NSDictionary *item in sourceItems)
+		[modDates setObject:[item objectForKey:@"modificationDate"]
+					 forKey:[item objectForKey:@"path"]];
+	_sourceItemModificationDatesByPath = modDates;
+	
 	NSSortDescriptor *dateDescending = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-	for (NSMutableDictionary *sourceItem in [self.sourceItems sortedArrayUsingDescriptors:[NSArray arrayWithObject:dateDescending]])
+	NSArray *sortedItems = [sourceItems sortedArrayUsingDescriptors:[NSArray arrayWithObject:dateDescending]];
+	[_haarCascadeController beginDetectionOfImagesAtPaths:[sortedItems valueForKey:@"path"] withCascadeNamed:@"haarcascade_frontalface_alt"];
+}
+
+
+- (void)haarCascadeController:(JSMHaarCascadeController *)controller
+			   didDetectRects:(NSRectArray)rects
+						count:(NSUInteger)rectCount
+			withCascadeAtPath:(NSString *)cascadePath
+					 forImage:(NSImage *)image
+					   atPath:(NSString *)path;
+{
+	if (rectCount > self.minFaceCount)
 	{
-		LLFaceReplacementOperation *operation = [[LLFaceReplacementOperation alloc] initWithSourceItem:sourceItem
-																							controller:self];
-		operation.minFaceCount = 2;
-		// Randomize things a bit
-		[operation setQueuePriority:(random() % 30) - 15];
-		[_faceDetectionQueue addOperation:operation];
+		[self willChangeValueForKey:@"allImageKeys"];
+		[_luchadorImages setObject:[NSData dataWithBytes:rects length:(rectCount * sizeof(NSRect))]
+							forKey:path];
+		[self didChangeValueForKey:@"allImageKeys"];
 	}
 }
 
 
-- (void)addLuchadorImage:(NSImage *)image forItemWithUUID:(NSString *)uuid;
+- (NSDate *)haarCascadeController:(JSMHaarCascadeController *)controller
+	 modificationDateOfFileAtPath:(NSString *)path;
 {
-	[[self mutableArrayValueForKey:@"luchadorImages"] addObject:image];
+	return [_sourceItemModificationDatesByPath objectForKey:path];
 }
 
 
-- (void)updateProgressSpinner;
+- (NSImage *)imageForKey:(NSString *)key;
 {
-	if ([[_faceDetectionQueue operations] count] == 0)
-		[progressSpinner stopAnimation:self];
-	else
-		[progressSpinner startAnimation:self];
+	NSData *rectArrayData = [_luchadorImages objectForKey:key];
+	NSRectArray faceRects = (NSRectArray)[rectArrayData bytes];
+	NSUInteger faceCount = [rectArrayData length] / sizeof(NSRect);
+	
+	NSString *path = key;
+	NSImage *sourceImage = [[NSImage alloc] initWithContentsOfFile:path];
+	NSImageRep *rep = [sourceImage bestRepresentationForDevice:nil];
+	if (!rep)
+		return nil;
+	
+	NSImage *image = [[NSImage alloc] initWithSize:[sourceImage size]];
+	
+	[image lockFocus];
+	[rep drawAtPoint:NSZeroPoint];
+	
+	for (NSUInteger i = 0; i < faceCount; i++)
+	{
+		NSRect rect = faceRects[i];
+		NSRect expandedRect = NSInsetRect(rect, -faceRectOutsetFactor * NSWidth(rect), -faceRectOutsetFactor * NSHeight(rect));
+		
+		// Calculate rect for face image
+		NSImage *luchadorFace = [self.maskImages objectAtIndex:(random() % [self.maskImages count])];
+		NSSize faceSourceSize = [luchadorFace size];
+		CGFloat faceRatio = faceSourceSize.width / faceSourceSize.height;
+		NSRect faceDestRect;
+		faceDestRect.size = NSMakeSize(MIN(NSWidth(expandedRect), NSHeight(expandedRect) * faceRatio),
+									   MIN(NSHeight(expandedRect), NSWidth(expandedRect) / faceRatio));
+		faceDestRect.origin = NSMakePoint(NSMidX(rect) - NSWidth(faceDestRect) / 2.0f, NSMidY(rect) - NSHeight(faceDestRect) / 2.0f);
+		
+		[luchadorFace drawInRect:faceDestRect
+						fromRect:NSMakeRect(0.0f, 0.0f, faceSourceSize.width, faceSourceSize.height)
+					   operation:NSCompositeSourceOver
+						fraction:1.0f];
+	}
+	[image unlockFocus];
+	return image;
 }
 
 

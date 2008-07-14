@@ -7,12 +7,13 @@
 //
 
 #import "LLImageTransitionView.h"
+#import "LLController.h"
 
 
 @interface LLImageTransitionView ()
 
 - (void)scheduleIntervalTimer;
-- (NSImage *)nextRandomImage;
+- (NSString *)nextRandomImageKey;
 
 @end
 
@@ -24,7 +25,7 @@
 	if ((self = [super initWithFrame:frame]))
 	{
 		_backgroundColor = [NSColor whiteColor];
-		_images = [NSArray array];
+		_imageKeys = [NSArray array];
 		_transitionStartTimeInterval = 0.0;
 		
 		_transition = [CIFilter filterWithName:@"CISwipeTransition"
@@ -46,16 +47,19 @@
 
 
 @synthesize backgroundColor = _backgroundColor;
-@synthesize images = _images;
+@synthesize imageKeys = _imageKeys;
 
 
-- (void)setImages:(NSArray *)images;
+- (void)setImageKeys:(NSArray *)imageKeys;
 {
-	_images = [images copy];
+	_imageKeys = [imageKeys copy];
 	
 	if (!_currentImage)
 	{
-		_currentImage = [self nextRandomImage];
+		NSString *nextImageKey = [self nextRandomImageKey];
+		NSImage *nextImage = [[[self infoForBinding:@"imageKeys"] objectForKey:NSObservedObjectKey] imageForKey:nextImageKey];
+		_currentImageKey = nextImageKey;
+		_currentImage = nextImage;
 		[self setNeedsDisplay:YES];
 	}
 }
@@ -156,18 +160,19 @@
 }
 
 
-- (NSImage *)nextRandomImage;
+- (NSString *)nextRandomImageKey;
 {
-	NSArray *candidateImages = self.images;
+	NSArray *candidateKeys = self.imageKeys;
 	if (_currentImage)
 	{
 		// Pick a different image
-		NSMutableArray *otherImages = [self.images mutableCopy];
-		[otherImages removeObjectIdenticalTo:_currentImage];
-		candidateImages = otherImages;
+		NSMutableArray *otherImageKeys = [self.imageKeys mutableCopy];
+		[otherImageKeys removeObjectIdenticalTo:_currentImageKey];
+		candidateKeys = otherImageKeys;
 	}
-	if ([candidateImages count] > 0)
-		return [candidateImages objectAtIndex:(random() % [candidateImages count])];
+	
+	if ([candidateKeys count] > 0)
+		return [candidateKeys objectAtIndex:(random() % [candidateKeys count])];
 	else
 		return nil;
 }
@@ -175,10 +180,15 @@
 
 - (void)intervalTimerFired:(NSTimer *)timer;
 {
-	NSImage *nextImage = [self nextRandomImage];
-	if (nextImage && (nextImage != _currentImage))
+	NSString *nextImageKey = [self nextRandomImageKey];
+	NSImage *nextImage = nil;
+	if (nextImageKey)
+		nextImage = [[[self infoForBinding:@"imageKeys"] objectForKey:NSObservedObjectKey] imageForKey:nextImageKey];
+	
+	if (nextImage && ![nextImageKey isEqual:_currentImageKey])
 	{
 		_transitionFromCIImage = _currentCIImage;
+		_currentImageKey = nextImageKey;
 		_currentImage = nextImage;
 		_currentCIImage = nil;
 		

@@ -13,7 +13,8 @@
 @interface LLImageTransitionView : NSView
 {
 	NSColor *_backgroundColor;
-	NSArray *_images;
+	NSArray *_imageKeys;
+	NSString *_currentImageKey;
 	NSImage *_currentImage;
     CIImage *_currentCIImage;
 	CIImage *_transitionFromCIImage;
@@ -26,7 +27,7 @@
 
 
 @property(readwrite, copy) NSColor *backgroundColor;
-@property(readwrite, copy) NSArray *images;
+@property(readwrite, copy) NSArray *imageKeys;
 @property(readonly) NSTimeInterval imageInterval;
 @property(readonly) NSTimeInterval transitionLength;
 @property(readonly) NSUInteger transitionFrameRate;
