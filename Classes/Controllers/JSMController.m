@@ -28,9 +28,8 @@
 {
 	if ((self = [super init]))
 	{
-#warning Generate APp Support path
-		NSString *haarCascadeStoragePath = [@"~/Library/Caches/com.jonathonmah.haarcascadeobjects.plist" stringByExpandingTildeInPath];
-		NSURL *haarCascadeStorageURL = [NSURL fileURLWithPath:haarCascadeStoragePath];
+		NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+		NSURL *haarCascadeStorageURL = [NSURL fileURLWithPath:[cachesPath stringByAppendingPathComponent:@"com.jonathonmah.haarcascadeobjects.plist"]];
 		_haarCascadeController = [[JSMHaarCascadeController alloc] initWithStorageURL:haarCascadeStorageURL];
 		_haarCascadeController.delegate = self;
 		
