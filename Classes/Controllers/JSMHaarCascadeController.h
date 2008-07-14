@@ -16,7 +16,6 @@
 @protocol JSMHaarCascadeDelegate
 
 @optional
-
 - (void)haarCascadeController:(JSMHaarCascadeController *)controller
 			   didDetectRects:(NSRectArray)rects
 						count:(NSUInteger)rectCount
