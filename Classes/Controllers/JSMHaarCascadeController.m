@@ -37,9 +37,9 @@ static NSTimeInterval modificationDateEpsilon = 1.0;
 		_detectionQueue = [[NSOperationQueue alloc] init];
 		[_detectionQueue setMaxConcurrentOperationCount:[[NSProcessInfo processInfo] activeProcessorCount]];
 		
-		NSData *storedData = [NSData dataWithContentsOfURL:_storageURL
-												   options:NSUncachedRead
-													 error:NULL];
+		NSData *storedData = nil;
+		if (_storageURL)
+			storedData = [NSData dataWithContentsOfURL:_storageURL options:NSUncachedRead error:NULL];
 		if (storedData)
 			_detectionResults = [NSPropertyListSerialization propertyListFromData:storedData
 																 mutabilityOption:NSPropertyListMutableContainersAndLeaves
@@ -171,7 +171,8 @@ static NSTimeInterval modificationDateEpsilon = 1.0;
 
 - (void)saveStorage;
 {
-	[_detectionResults writeToURL:self.storageURL atomically:YES];
+	if (self.storageURL)
+		[_detectionResults writeToURL:self.storageURL atomically:YES];
 }
 
 
