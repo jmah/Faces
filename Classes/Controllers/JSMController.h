@@ -8,9 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "JSMHaarCascadeController.h"
+#import "JSMFaceExtractionOperation.h"
 
 
-@interface JSMController : NSObject <JSMHaarCascadeDelegate>
+@interface JSMController : NSObject <JSMHaarCascadeDelegate, JSMFaceExtractionDelegate>
 {
 	JSMHaarCascadeController *_haarCascadeController;
 	NSArray *_sourceItems;
@@ -22,7 +23,5 @@
 
 @property(readonly, copy) NSArray *sourceItems;
 @property(readwrite, retain) NSMutableArray *faces;
-
-- (void)addFaces:(NSArray *)faces;
 
 @end

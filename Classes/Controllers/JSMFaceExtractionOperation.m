@@ -16,7 +16,7 @@
 @implementation JSMFaceExtractionOperation
 
 
-- (id)initWithImage:(NSImage *)image rects:(NSRectArray)rects count:(NSUInteger)rectCount delegate:(id)delegate;
+- (id)initWithImage:(NSImage *)image rects:(NSRectArray)rects count:(NSUInteger)rectCount delegate:(id <JSMFaceExtractionDelegate>)delegate;
 {
 	if ((self = [super init]))
 	{
@@ -66,7 +66,8 @@
 	if (self.isCancelled)
 		return;
 	
-	[_delegate performOnMainThread:MSG(addFaces:faces) waitUntilDone:NO];
+	if ([(id)_delegate respondsToSelector:@selector(addFaces:)])
+		[(id)_delegate performOnMainThread:MSG(addFaces:faces) waitUntilDone:NO];
 }
 
 

@@ -8,7 +8,6 @@
 
 #import "JSMController.h"
 #import "RMMessage.h"
-#import "JSMFaceExtractionOperation.h"
 
 
 @interface JSMController ()
